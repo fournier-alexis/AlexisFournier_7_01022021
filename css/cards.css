@@ -1,0 +1,96 @@
+#cards{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.recipe {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    flex-grow: 0;
+    flex-basis: 24em;
+    height: 23em;
+    border-radius: 0.3em;
+    overflow: hidden;
+    background-color: #E7E7E7;
+    transition: transform 500ms ease;
+    margin-bottom: 5em;
+}
+
+.recipe:hover{
+    cursor: pointer;
+    transform: scale(1.02);
+}
+
+.recipe img{
+    object-fit: cover;
+    height: 48%;
+}
+
+.recipe .content{
+    height: 100%;
+    margin: 1.25em;
+}
+
+
+.recipe .content .informations, .recipe .content .description{
+    display: flex;
+    justify-content: space-between;
+}
+
+.recipe .content h1, .recipe .content h2, .recipe .content ul, .recipe .content p{
+    margin: 0;
+    padding: 0;
+}
+.recipe .content h1, .recipe .content h2{
+    font-size: 1.125rem;
+}
+
+.recipe .content ul, .recipe .content p{
+    font-size: 0.75rem;
+}
+
+.recipe .content .informations{
+    margin-bottom: 1em;
+}
+
+.recipe .content h1{
+    font-weight: normal;
+}
+
+.recipe .content h2{
+    font-weight: 700;
+}
+
+.recipe .content h2:before{
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    content: "\f017";
+    margin-right: 0.3em;
+    font-weight: normal;
+
+}
+
+.recipe .content p{
+    flex-basis: 50%;
+}
+
+.recipe .content .description li::marker{
+    content: none;
+}
+
+@media (max-width: 768px){
+    #cards{
+        align-items: center;
+    }
+
+    .cards-line{
+        flex-direction: column;
+    }
+
+    .recipe{
+        width: 20em;
+        height: 20em;
+        margin-bottom:2.5em;
+    }
+}

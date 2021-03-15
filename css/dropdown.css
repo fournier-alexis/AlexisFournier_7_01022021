@@ -1,0 +1,87 @@
+#dropdowns{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1.5em 5.5em;
+}
+
+/* Dropdown Button */
+.dropdown{
+    display: inline-block;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.dropdown input{
+    width: 120px;
+    padding: 20px 15px;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+    color: white;
+}
+
+.dropdown input::placeholder{
+    color: white;
+}
+
+.dropdown input[type="search"]::-webkit-search-decoration,
+.dropdown input[type="search"]::-webkit-search-cancel-button,
+.dropdown input[type="search"]::-webkit-search-results-button,
+.dropdown input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+
+.dropdown i {
+    color: white;
+    margin-right: 15px;
+}
+
+/* Colors */
+
+.blue, .blue input{
+    background-color: #3282F7;
+}
+
+.blue:hover {
+    background-color: #325CF7;
+}
+
+.blue:hover input{
+    background-color: #325CF7;
+}
+
+.green, .green input{
+    background-color: #68D9A4;
+}
+
+.green:hover {
+    background-color: #3FD28D;
+}
+
+.green:hover input{
+    background-color: #3FD28D;
+}
+
+.red, .red input{
+    background-color: #ED6454;
+}
+
+.red:hover {
+    background-color: #D44F3F;
+}
+
+.red:hover input{
+    background-color: #D44F3F;
+}
+
+@media (max-width: 768px){
+    #dropdowns{
+        margin: 1.5em 2.7em;
+    }
+
+    .dropdown:not(:last-child){
+        margin-bottom: 20px;
+    }
+}
