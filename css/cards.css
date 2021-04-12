@@ -33,6 +33,9 @@
     margin: 1.25em;
 }
 
+.recipe .content .description{
+    height: 5.93em;
+}
 
 .recipe .content .informations, .recipe .content .description{
     display: flex;
@@ -43,12 +46,18 @@
     margin: 0;
     padding: 0;
 }
+
+.recipe .content ul{
+    margin-right: 1em;
+}
+
 .recipe .content h1, .recipe .content h2{
     font-size: 1.125rem;
 }
 
 .recipe .content ul, .recipe .content p{
     font-size: 0.75rem;
+    overflow: hidden;
 }
 
 .recipe .content .informations{

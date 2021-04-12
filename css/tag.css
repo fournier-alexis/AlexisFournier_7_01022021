@@ -1,0 +1,36 @@
+#tags {
+    display: flex;
+    margin: 0 5.5em;
+}
+
+.tag {
+    display: flex;
+    padding: 0.5em;
+    margin-right: 1em;
+    border-radius: 5px;
+    color: white;
+    transition: transform 250ms ease;
+}
+
+.tag:after {
+    font-family: 'Font Awesome 5 Free', sans-serif;
+    content: "\f057";
+    margin-left: 1em;
+}
+
+.tag:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.ing {
+    background-color: #3282F7;
+}
+
+.app{
+    background-color: #68D9A4;
+}
+
+.ust{
+    background-color: #ED6454;
+}
