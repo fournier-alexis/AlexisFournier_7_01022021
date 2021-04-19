@@ -6,17 +6,15 @@
 
 /* Dropdown Button */
 .dropdown{
-    display: inline-block;
     border-radius: 5px;
     margin-right: 20px;
+    margin-bottom: 20px;
 }
 
 .dropdown input{
-    width: 120px;
     padding: 20px 15px;
     font-size: 18px;
     border: none;
-    cursor: pointer;
     appearance: none;
     outline: none;
     color: white;
@@ -38,42 +36,63 @@
     margin-right: 15px;
 }
 
+.dropdown-content {
+    position: absolute;
+    z-index: 1;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.dropdown-content div {
+    padding: 3px 15px;
+    color: white;
+    border-radius: 5px;
+}
+
+#blue-content, #green-content, #red-content{
+    margin-top: -3px;
+    display: none;
+}
+
 /* Colors */
 
-.blue, .blue input{
+#blue, #blue input, #blue .dropdown-content div:hover{
     background-color: #3282F7;
+    cursor: pointer;
 }
 
-.blue:hover {
+#blue:hover, #blue:hover input, #blue-content {
     background-color: #325CF7;
 }
 
-.blue:hover input{
-    background-color: #325CF7;
-}
-
-.green, .green input{
+#green, #green input, #green .dropdown-content div:hover{
     background-color: #68D9A4;
+    cursor: pointer;
 }
 
-.green:hover {
+#green:hover, #green:hover input, #green-content {
     background-color: #3FD28D;
 }
 
-.green:hover input{
-    background-color: #3FD28D;
-}
-
-.red, .red input{
+#red, #red input, #red .dropdown-content div:hover{
     background-color: #ED6454;
+    cursor: pointer;
 }
 
-.red:hover {
+#red:hover, #red:hover input, #red-content {
     background-color: #D44F3F;
 }
 
-.red:hover input{
-    background-color: #D44F3F;
+
+@media (max-width: 1088px){
+    .opened #ingredients {
+        width: auto!important;
+    }
+
+    .opened .dropdown-content {
+        max-height: unset!important;
+        width: 17.375em!important;
+    }
 }
 
 @media (max-width: 768px){

@@ -51,6 +51,18 @@ header img{
     margin-right: 1em;
 }
 
+#search-bar input[type="search"]::-webkit-search-decoration,
+#search-bar input[type="search"]::-webkit-search-cancel-button,
+#search-bar input[type="search"]::-webkit-search-results-button,
+#search-bar input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+
+.noRecipes {
+    font-weight: 600;
+    color: #3F3844;
+}
+
 @media (max-width: 768px){
     header h1 {
         font-size: 1.50rem;
