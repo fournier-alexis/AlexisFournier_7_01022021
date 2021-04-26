@@ -58,7 +58,8 @@ header img{
     display: none;
 }
 
-.noRecipes {
+#noRecipes {
+    display: none;
     font-weight: 600;
     color: #3F3844;
 }
