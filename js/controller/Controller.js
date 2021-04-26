@@ -1,5 +1,3 @@
-import RecipeComponent from "../components/RecipeComponent";
-import NoRecipesComponent from "../components/NoRecipesComponent";
 import { isDropdownSearch } from "../utils/Utils";
 import { DropdownController } from "./DropdownController";
 import {
@@ -9,6 +7,11 @@ import {
   isNameContainValue,
   isUstensilsContainValue,
 } from "../utils/Sort";
+import {
+  getAllAppliance,
+  getAllIngredients,
+  getAllUstensil,
+} from "../utils/GetAllValues";
 
 export default class Controller {
   static listRecipe = [];
@@ -69,40 +72,55 @@ export default class Controller {
 
   /**
    *
+   * @return {HTMLElement[]}
+   */
+  getCurrentRecipes() {
+    const recipes = [];
+    document.querySelectorAll(".recipe").forEach((recipe) => {
+      recipe.style.display !== "none" && recipes.push(recipe);
+    });
+    return recipes;
+  }
+
+  /**
+   *
    * @param event
    * @return {void}
    */
   onSearchChange(event) {
+    this.updateRecipes(this.sortByTags(false), this.sortByTags(true));
     if (event.target.value.length >= 3) {
       if (isDropdownSearch(event.target)) {
         this.sortFilter(event.target.value, event.target.id);
       } else {
-        this.currentRecipes = this.sortByName(event.target.value);
-        this.updateRecipes();
+        this.updateRecipes(
+          this.sortByName(event.target.value, false),
+          this.sortByName(event.target.value, true)
+        );
         this.dropdownController.updateDropdownValues();
       }
-    } else {
-      if (!isDropdownSearch(event.target)) {
-        this.updateRecipes();
-      }
-      this.dropdownController.updateDropdownValues();
     }
+    this.dropdownController.updateDropdownValues();
   }
 
   /**
+   * @param recipesToDisplay
+   * @param recipesToRemove
    * @return {void}
    */
-  updateRecipes() {
-    document.getElementById("cards").innerHTML = "";
-    document.querySelectorAll(".recipe").forEach((recipe) => {
-      document
-        .getElementById("cards")
-        .appendChild(new RecipeComponent(recipe).createElement());
+  updateRecipes(recipesToDisplay, recipesToRemove) {
+    recipesToRemove.forEach((recipe) => {
+      recipe.style.display = "none";
     });
-    if (this.currentRecipes.length === 0) {
-      document
-        .getElementById("cards")
-        .appendChild(new NoRecipesComponent().createElement());
+
+    recipesToDisplay.forEach((recipe) => {
+      recipe.style.display = "flex";
+    });
+
+    if (this.getCurrentRecipes().length === 0) {
+      document.getElementById("noRecipes").style.display = "block";
+    } else {
+      document.getElementById("noRecipes").style.display = "none";
     }
   }
 
@@ -113,8 +131,15 @@ export default class Controller {
    */
   removeTag(tag) {
     this.filters = this.filters.filter((filter) => filter.value !== tag.value);
-    this.currentRecipes = this.sortByTags();
-    this.updateRecipes();
+    if (this.filters.length > 0) {
+      this.updateRecipes(this.sortByTags(false), this.sortByTags(true));
+    } else {
+      this.updateRecipes(document.querySelectorAll(".recipe"), []);
+    }
+    this.updateRecipes(
+      this.sortByName(document.getElementById("search").value, false),
+      this.sortByName(document.getElementById("search").value, true)
+    );
     this.dropdownController.updateDropdownValues();
     this.updateFilters();
   }
@@ -143,22 +168,31 @@ export default class Controller {
   sortFilter(value, context) {
     switch (context) {
       case "ingredients":
-        this.currentIngredients = this.currentIngredients.filter((ing) =>
-          ing.ingredient.toLowerCase().includes(value.toLowerCase())
+        this.dropdownController.updateIngredients(
+          getAllIngredients(this.getCurrentRecipes()).filter((ing) =>
+            ing.toLowerCase().includes(value.toLowerCase())
+          ),
+          getAllAppliance(this.getCurrentRecipes()),
+          getAllUstensil(this.getCurrentRecipes())
         );
-        this.dropdownController.updateIngredients();
         break;
       case "appareil":
-        this.currentAppliances = this.currentAppliances.filter((app) =>
-          app.toLowerCase().includes(value.toLowerCase())
+        this.dropdownController.updateAppliance(
+          getAllIngredients(this.getCurrentRecipes()),
+          getAllAppliance(this.getCurrentRecipes()).filter((app) =>
+            app.toLowerCase().includes(value.toLowerCase())
+          ),
+          getAllUstensil(this.getCurrentRecipes())
         );
-        this.dropdownController.updateAppliance();
         break;
       case "ustensiles":
-        this.currentUstensils = this.currentUstensils.filter((ust) =>
-          ust.name.toLowerCase().includes(value.toLowerCase())
+        this.dropdownController.updateUstensil(
+          getAllIngredients(this.getCurrentRecipes()),
+          getAllAppliance(this.getCurrentRecipes()),
+          getAllUstensil(this.getCurrentRecipes()).filter((ust) =>
+            ust.toLowerCase().includes(value.toLowerCase())
+          )
         );
-        this.dropdownController.updateUstensil();
         break;
     }
   }
@@ -166,15 +200,21 @@ export default class Controller {
   /**
    *
    * @param value {string}
-   * @return {[]}
+   * @param doesNotMatch
+   * @return {HTMLElement[]}
    */
-  sortByName(value) {
+  sortByName(value, doesNotMatch) {
     let filteredRecipes = [];
-    this.sortByTags().forEach((recipe) => {
+    this.getCurrentRecipes().forEach((recipe) => {
       if (
-        isNameContainValue(recipe, value) ||
-        isDescriptionContainValue(recipe, value) ||
-        isIngredientsContainValue(recipe, value)
+        (doesNotMatch &&
+          !isNameContainValue(recipe, value) &&
+          !isDescriptionContainValue(recipe, value) &&
+          !isIngredientsContainValue(recipe, value)) ||
+        (!doesNotMatch &&
+          isNameContainValue(recipe, value) &&
+          isDescriptionContainValue(recipe, value) &&
+          isIngredientsContainValue(recipe, value))
       )
         filteredRecipes.push(recipe);
     });
@@ -183,26 +223,48 @@ export default class Controller {
 
   /**
    *
-   * @return {Recipe[]}
+   * @return {HTMLElement[]}
    */
-  sortByTags() {
+  sortByTags(doesNotMatch) {
     let filteredRecipes = document.querySelectorAll(".recipe");
     this.filters.forEach((filter) => {
+      filteredRecipes = [];
       switch (filter.type) {
         case "ingredient":
-          filteredRecipes = filteredRecipes.filter((recipe) =>
-            isIngredientsContainValue(recipe, filter.value)
-          );
+          document
+            .querySelectorAll(".recipe")
+            .forEach(
+              (recipe) =>
+                ((doesNotMatch &&
+                  !isIngredientsContainValue(recipe, filter.value)) ||
+                  (!doesNotMatch &&
+                    isIngredientsContainValue(recipe, filter.value))) &&
+                filteredRecipes.push(recipe)
+            );
           break;
         case "appareil":
-          filteredRecipes = filteredRecipes.filter((recipe) =>
-            isApplianceContainValue(recipe, filter.value)
-          );
+          document
+            .querySelectorAll(".recipe")
+            .forEach(
+              (recipe) =>
+                ((doesNotMatch &&
+                  !isApplianceContainValue(recipe, filter.value)) ||
+                  (!doesNotMatch &&
+                    isApplianceContainValue(recipe, filter.value))) &&
+                filteredRecipes.push(recipe)
+            );
           break;
         case "ustensil":
-          filteredRecipes = filteredRecipes.filter((recipe) =>
-            isUstensilsContainValue(recipe, filter.value)
-          );
+          document
+            .querySelectorAll(".recipe")
+            .forEach(
+              (recipe) =>
+                ((doesNotMatch &&
+                  !isUstensilsContainValue(recipe, filter.value)) ||
+                  (!doesNotMatch &&
+                    isUstensilsContainValue(recipe, filter.value))) &&
+                filteredRecipes.push(recipe)
+            );
           break;
       }
     });

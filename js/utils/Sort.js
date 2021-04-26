@@ -38,10 +38,7 @@ export function isIngredientsContainValue(recipe, value) {
   let isContain = false;
 
   JSON.parse(recipe.dataset.ingredients).forEach((ingredient) => {
-    if (
-      !isContain &&
-      ingredient.ingredient.toLowerCase().includes(value.toLowerCase())
-    ) {
+    if (!isContain && ingredient.toLowerCase().includes(value.toLowerCase())) {
       isContain = true;
     }
   });
@@ -51,7 +48,7 @@ export function isIngredientsContainValue(recipe, value) {
 
 /**
  *
- * @param recipe {HTMLElement}
+ * @param recipe {HTMLElement | Element}
  * @param value
  * @return {boolean}
  */
@@ -60,7 +57,7 @@ export function isUstensilsContainValue(recipe, value) {
   JSON.parse(recipe.dataset.ustensils).forEach((ustensil) => {
     if (
       !isContain &&
-      ustensil.name.toString().toLowerCase().includes(value.toLowerCase())
+      ustensil.toString().toLowerCase().includes(value.toLowerCase())
     ) {
       isContain = true;
     }

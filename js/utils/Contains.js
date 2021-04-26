@@ -1,16 +1,13 @@
 /**
  *
- * @param ingredients {Ingredient[]}
- * @param ingredient {Ingredient}
+ * @param ingredients {String[]}
+ * @param ingredient {String}
  * @return {boolean}
  */
 export function isIngredientContain(ingredients, ingredient) {
   let contain = false;
   ingredients.forEach((ing) => {
-    if (
-      !contain &&
-      ing.ingredient.toLowerCase() === ingredient.ingredient.toLowerCase()
-    ) {
+    if (!contain && ing.toLowerCase() === ingredient.toLowerCase()) {
       contain = true;
     }
   });
@@ -35,14 +32,14 @@ export function isApplianceContain(appliances, appliance) {
 
 /**
  *
- * @param ustensils {Ustensil[]}
- * @param ustensil {Ustensil}
+ * @param ustensils {String[]}
+ * @param ustensil {String}
  * @return {boolean}
  */
 export function isUstensilContain(ustensils, ustensil) {
   let contain = false;
   ustensils.forEach((ust) => {
-    if (!contain && ust.name.toLowerCase() === ustensil.name.toLowerCase()) {
+    if (!contain && ust.toLowerCase() === ustensil.toLowerCase()) {
       contain = true;
     }
   });

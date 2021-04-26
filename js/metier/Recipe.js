@@ -75,4 +75,24 @@ export default class Recipe {
 
     return listUstensils;
   }
+
+  /**
+   *
+   * @return {[]}
+   */
+  getIngredientsNames() {
+    const ingredients = [];
+    this.ingredients.forEach((ingredient) => {
+      ingredients.push(ingredient.ingredient);
+    });
+    return ingredients;
+  }
+
+  getUstensilsNames() {
+    const ustensils = [];
+    this.ustensils.forEach((ustensil) => {
+      ustensils.push(ustensil.name);
+    });
+    return ustensils;
+  }
 }

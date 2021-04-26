@@ -5,9 +5,6 @@ import {
   isDropdownContent,
   isOpen,
 } from "../utils/Utils";
-import IngredientComponent from "../components/IngredientComponent";
-import ApplianceComponent from "../components/ApplianceComponent";
-import UstensilComponent from "../components/UstensilComponent";
 import {
   getAllAppliance,
   getAllIngredients,
@@ -40,6 +37,15 @@ export class DropdownController {
     });
   }
 
+  getCurrentIngredients() {
+    const currentIngredients = [];
+    document.querySelectorAll(".ingredient").forEach((ingredient) => {
+      ingredient.style.display !== "none" &&
+        currentIngredients.push(ingredient);
+    });
+    return currentIngredients;
+  }
+
   /**
    *
    * @param event {Event}
@@ -52,8 +58,20 @@ export class DropdownController {
       this.controller.filters.push(
         new Tag(event.target.className, event.target.textContent)
       );
-      this.controller.currentRecipes = this.controller.sortByTags();
-      this.controller.updateRecipes();
+      this.controller.updateRecipes(
+        this.controller.sortByTags(false),
+        this.controller.sortByTags(true)
+      );
+      this.controller.updateRecipes(
+        this.controller.sortByName(
+          document.getElementById("search").value,
+          false
+        ),
+        this.controller.sortByName(
+          document.getElementById("search").value,
+          true
+        )
+      );
       this.controller.updateFilters();
       this.updateDropdownValues();
     }
@@ -75,7 +93,13 @@ export class DropdownController {
 
     if (display === "flex") {
       dropdown.parentElement.classList.add("opened");
-      this.updateDropdownSize(dropdown);
+
+      this.updateDropdownSize(
+        dropdown,
+        getAllIngredients(this.controller.getCurrentRecipes()),
+        getAllAppliance(this.controller.getCurrentRecipes()),
+        getAllUstensil(this.controller.getCurrentRecipes())
+      );
     } else {
       dropdown.parentElement.classList.remove("opened");
       dropdown.parentElement.children[1].style.width = "auto";
@@ -86,81 +110,92 @@ export class DropdownController {
    * @return {void}
    */
   updateDropdownValues() {
-    this.controller.currentIngredients = getAllIngredients(
-      this.controller.currentRecipes
+    this.updateDropdowns(
+      getAllIngredients(this.controller.getCurrentRecipes()),
+      getAllAppliance(this.controller.getCurrentRecipes()),
+      getAllUstensil(this.controller.getCurrentRecipes())
     );
-    this.controller.currentAppliances = getAllAppliance(
-      this.controller.currentRecipes
-    );
-    this.controller.currentUstensils = getAllUstensil(
-      this.controller.currentRecipes
-    );
-    this.updateDropdowns();
   }
 
   /**
    * @return {void}
    */
-  updateDropdowns() {
-    this.updateIngredients();
-    this.updateAppliance();
-    this.updateUstensil();
+  updateDropdowns(ingredients, appliances, ustensils) {
+    this.updateIngredients(ingredients, appliances, ustensils);
+    this.updateAppliance(ingredients, appliances, ustensils);
+    this.updateUstensil(ingredients, appliances, ustensils);
   }
 
   /**
    * @return {void}
    */
-  updateIngredients() {
+  updateIngredients(ingredients, appliances, ustensils) {
     const div = document.getElementById("blue-content");
-    div.innerHTML = "";
-    this.controller.currentIngredients.forEach((ingredient) => {
-      div.appendChild(new IngredientComponent(ingredient).createElement());
+    document.querySelectorAll(".ingredient").forEach((ing) => {
+      if (!ingredients.includes(ing.textContent)) {
+        ing.style.display = "none";
+      }
+      if (ingredients.includes(ing.textContent)) {
+        ing.style.display = "flex";
+      }
     });
-    this.updateDropdownSize(div);
+    this.updateDropdownSize(div, ingredients, appliances, ustensils);
   }
 
   /**
    * @return {void}
    */
-  updateAppliance() {
+  updateAppliance(ingredients, appliances, ustensils) {
+    console.log(appliances);
     const div = document.getElementById("green-content");
-    div.innerHTML = "";
-    this.controller.currentAppliances.forEach((appliance) => {
-      div.appendChild(new ApplianceComponent(appliance).createElement());
+    document.querySelectorAll(".appareil").forEach((app) => {
+      if (!appliances.includes(app.textContent)) {
+        app.style.display = "none";
+      }
+      if (appliances.includes(app.textContent)) {
+        app.style.display = "flex";
+      }
     });
-    this.updateDropdownSize(div);
+    this.updateDropdownSize(div, ingredients, appliances, ustensils);
   }
 
   /**
    * @return {void}
    */
-  updateUstensil() {
+  updateUstensil(ingredients, appliances, ustensils) {
     const div = document.getElementById("red-content");
-    div.innerHTML = "";
-    this.controller.currentUstensils.forEach((ustensil) => {
-      div.appendChild(new UstensilComponent(ustensil).createElement());
+    document.querySelectorAll(".ustensil").forEach((ust) => {
+      if (!ustensils.includes(ust.textContent)) {
+        ust.style.display = "none";
+      }
+      if (ustensils.includes(ust.textContent)) {
+        ust.style.display = "flex";
+      }
     });
-    this.updateDropdownSize(div);
+    this.updateDropdownSize(div, ingredients, appliances, ustensils);
   }
 
   /**
    *
    * @param dropdown {HTMLElement}
+   * @param ingredients
+   * @param appliances
+   * @param ustensils
    * @return {void}
    */
-  updateDropdownSize(dropdown) {
+  updateDropdownSize(dropdown, ingredients, appliances, ustensils) {
     if (dropdown.parentElement.className.includes("opened")) {
       const width = getDropdownWidth(
         dropdown.id,
-        this.controller.currentIngredients,
-        this.controller.currentAppliances,
-        this.controller.currentUstensils
+        ingredients,
+        appliances,
+        ustensils
       );
       const maxHeight = getDropdownMaxheight(
         dropdown.id,
-        this.controller.currentIngredients,
-        this.controller.currentAppliances,
-        this.controller.currentUstensils
+        ingredients,
+        appliances,
+        ustensils
       );
       dropdown.style.width = width + "em";
       dropdown.parentElement.children[1].style.width =

@@ -37,12 +37,14 @@ export default class RecipeComponent {
     recipeWidthDatas.dataset.name = this.recipe.name;
     recipeWidthDatas.dataset.servings = this.recipe.servings.toString();
     recipeWidthDatas.dataset.ingredients = JSON.stringify(
-      this.recipe.ingredients
+      this.recipe.getIngredientsNames()
     );
     recipeWidthDatas.dataset.time = this.recipe.time.toString();
     recipeWidthDatas.dataset.description = this.recipe.description;
     recipeWidthDatas.dataset.appliance = this.recipe.appliance;
-    recipeWidthDatas.dataset.ustensils = JSON.stringify(this.recipe.ustensils);
+    recipeWidthDatas.dataset.ustensils = JSON.stringify(
+      this.recipe.getUstensilsNames()
+    );
 
     return recipeWidthDatas;
   }
@@ -64,10 +66,11 @@ export default class RecipeComponent {
     const informations = document.createElement("div");
     informations.className = "informations";
 
-    const title = document.createElement("h1");
+    const title = document.createElement("h2");
     title.textContent = this.recipe.name;
 
-    const time = document.createElement("h2");
+    const time = document.createElement("time");
+    time.dateTime = `PT0${this.recipe.time.toString()}M`;
     time.textContent = this.recipe.time.toString();
 
     informations.appendChild(title);

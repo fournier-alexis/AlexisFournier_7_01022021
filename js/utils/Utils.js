@@ -32,7 +32,7 @@ export function isOpen(dropdown) {
 /**
  *
  * @param id {string}
- * @param ingredients {Ingredient[]}
+ * @param ingredients {String[]}
  * @param appliances {string[]}
  * @param ustensils {Ustensil[]}
  * @return {number}
