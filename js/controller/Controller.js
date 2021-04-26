@@ -88,27 +88,33 @@ export default class Controller {
    * @return {void}
    */
   onSearchChange(event) {
-    this.updateRecipes(this.sortByTags(false), this.sortByTags(true));
+    let isUpdate = false;
     if (event.target.value.length >= 3) {
+      isUpdate = true;
       if (isDropdownSearch(event.target)) {
         this.sortFilter(event.target.value, event.target.id);
       } else {
+        this.updateRecipes(this.sortByTags(false), this.sortByTags(true));
         this.updateRecipes(
           this.sortByName(event.target.value, false),
           this.sortByName(event.target.value, true)
         );
         this.dropdownController.updateDropdownValues();
       }
+    } else {
+      this.updateRecipes(this.sortByTags(false), this.sortByTags(true));
     }
-    this.dropdownController.updateDropdownValues();
+    !isUpdate && this.dropdownController.updateDropdownValues();
   }
 
   /**
+   *
    * @param recipesToDisplay
    * @param recipesToRemove
    * @return {void}
    */
   updateRecipes(recipesToDisplay, recipesToRemove) {
+    console.log("ici");
     recipesToRemove.forEach((recipe) => {
       recipe.style.display = "none";
     });
@@ -125,7 +131,7 @@ export default class Controller {
   }
 
   /**
-   *
+   * Remove an active tag
    * @param tag {Tag}
    * @return {void}
    */
@@ -145,6 +151,7 @@ export default class Controller {
   }
 
   /**
+   * Update tags in filters
    * @return {void}
    */
   updateFilters() {
@@ -160,7 +167,7 @@ export default class Controller {
   }
 
   /**
-   *
+   * Sort filters values
    * @param value {string}
    * @param context {string}
    * @return {void}
@@ -198,7 +205,7 @@ export default class Controller {
   }
 
   /**
-   *
+   * Sort recipes by a string
    * @param value {string}
    * @param doesNotMatch
    * @return {HTMLElement[]}
@@ -222,7 +229,7 @@ export default class Controller {
   }
 
   /**
-   *
+   * Sort recipes by tag
    * @return {HTMLElement[]}
    */
   sortByTags(doesNotMatch) {

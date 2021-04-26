@@ -20,7 +20,7 @@ export function isDescriptionContainValue(recipe, value) {
 
 /**
  *
- * @param recipe {HTMLElement}
+ * @param recipe
  * @param value
  * @return {boolean}
  */
@@ -30,7 +30,7 @@ export function isApplianceContainValue(recipe, value) {
 
 /**
  *
- * @param recipe {HTMLElement}
+ * @param recipe
  * @param value {string}
  * @return {boolean}
  */
@@ -48,7 +48,7 @@ export function isIngredientsContainValue(recipe, value) {
 
 /**
  *
- * @param recipe {HTMLElement | Element}
+ * @param recipe
  * @param value
  * @return {boolean}
  */

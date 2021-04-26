@@ -38,7 +38,7 @@ export function isApplianceContain(appliances, appliance) {
  */
 export function isUstensilContain(ustensils, ustensil) {
   let contain = false;
-  ustensils.forEach((ust) => {
+  ustensils.map((ust) => {
     if (!contain && ust.toLowerCase() === ustensil.toLowerCase()) {
       contain = true;
     }

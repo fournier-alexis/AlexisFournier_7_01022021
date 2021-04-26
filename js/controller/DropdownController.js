@@ -146,7 +146,6 @@ export class DropdownController {
    * @return {void}
    */
   updateAppliance(ingredients, appliances, ustensils) {
-    console.log(appliances);
     const div = document.getElementById("green-content");
     document.querySelectorAll(".appareil").forEach((app) => {
       if (!appliances.includes(app.textContent)) {
