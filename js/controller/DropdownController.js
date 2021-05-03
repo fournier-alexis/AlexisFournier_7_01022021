@@ -53,6 +53,9 @@ export class DropdownController {
         new Tag(event.target.className, event.target.textContent)
       );
       this.controller.currentRecipes = this.controller.sortByTags();
+      this.controller.currentRecipes = this.controller.sortByName(
+        document.getElementById("search").value
+      );
       this.controller.updateRecipes();
       this.controller.updateFilters();
       this.updateDropdownValues();

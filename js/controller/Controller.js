@@ -88,6 +88,9 @@ export default class Controller {
     } else {
       if (!isDropdownSearch(event.target)) {
         this.currentRecipes = this.sortByTags();
+        this.currentRecipes = this.sortByName(
+          document.getElementById("search").value
+        );
         this.updateRecipes();
       }
       this.dropdownController.updateDropdownValues();
@@ -119,6 +122,9 @@ export default class Controller {
   removeTag(tag) {
     this.filters = this.filters.filter((filter) => filter.value !== tag.value);
     this.currentRecipes = this.sortByTags();
+    this.currentRecipes = this.sortByName(
+      document.getElementById("search").value
+    );
     this.updateRecipes();
     this.dropdownController.updateDropdownValues();
     this.updateFilters();
@@ -181,15 +187,6 @@ export default class Controller {
         isDescriptionContainValue(recipe, value) ||
         isIngredientsContainValue(recipe, value)
     );
-    /*Controller.listRecipe.forEach((recipe) => {
-          if (
-            this.isNameContainValue(recipe, value) ||
-            this.isDescriptionContainValue(recipe, value) ||
-            this.isIngredientsContainValue(recipe, value)
-          )
-            filteredRecipes.push(recipe);
-        });*/
-
     return filteredRecipes;
   }
 
