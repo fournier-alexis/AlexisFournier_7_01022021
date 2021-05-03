@@ -42,7 +42,7 @@
     justify-content: space-between;
 }
 
-.recipe .content h1, .recipe .content h2, .recipe .content ul, .recipe .content p{
+.recipe .content h2, .recipe .content time, .recipe .content ul, .recipe .content p{
     margin: 0;
     padding: 0;
 }
@@ -51,7 +51,7 @@
     margin-right: 1em;
 }
 
-.recipe .content h1, .recipe .content h2{
+.recipe .content h2, .recipe .content time{
     font-size: 1.125rem;
 }
 
@@ -64,15 +64,15 @@
     margin-bottom: 1em;
 }
 
-.recipe .content h1{
+.recipe .content h2{
     font-weight: normal;
 }
 
-.recipe .content h2{
+.recipe .content time{
     font-weight: 700;
 }
 
-.recipe .content h2:before{
+.recipe .content time:before{
     font-family: 'Font Awesome 5 Free', sans-serif;
     content: "\f017";
     margin-right: 0.3em;
