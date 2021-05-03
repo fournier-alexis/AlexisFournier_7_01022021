@@ -7,4 +7,6 @@
 
 **Livrables :**
 - Repo : https://github.com/fournier-alexis/AlexisFournier_7_01032021
-- Site : 
+- Sites :
+  - [ALGO] DOM : http://portfolio-fournier-alexis.yo.fr/P7/dom/
+  - [ALGO] Session : http://portfolio-fournier-alexis.yo.fr/P7/session/
